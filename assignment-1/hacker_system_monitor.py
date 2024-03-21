@@ -1,20 +1,24 @@
 """
-# Hacker System Monitor
+# #1 Hacker System Monitor
 
-## Description
-We created this fancy system monitor to brag about our powerful servers. We are not executing too many processes, are we?
+## Type
+Web Security
 
 ## Vulnerability type
 Command Injection
 
-## Explaination
-It appears that the server likely utilizes the `pidof` command followed by user input. 
-This setup creates an opportunity for injecting custom shell commands. 
-By appending a semicolon `;` followed by a custom command, an attacker could execute arbitrary commands.
+## Description
+We created this fancy system monitor to brag about our powerful servers. We are not executing too many processes, are we?
 
-To address this challenge, one potential approach is to utilize DNSLog services. 
-By pinging the content of `flag.txt` to one of its domains, the server will register the request. 
-Finally, the website will display the received request, with the URL containing the flag. 
+## Explaination
+In this challenge, it appears that the server likely utilizes the `pidof` command followed by user input. 
+This setup creates an opportunity for injecting custom shell commands. 
+In fact, by appending a semicolon `;` followed by a custom command, an attacker could execute arbitrary shell commands.
+
+To address this challenge, one potential approach is to employ DNSLog services. 
+DNSLog services enable the capture of every request made to one of their domains, regardless of any preceding strings in the request URL.
+More precisely, an attacker can access the content of flag.txt and append it before the domain. 
+Following this, they can utilize the `ping` command to generate a ping request, allowing the DNSLog service to capture and display the request URL containing the flag.
 """
 
 import random
