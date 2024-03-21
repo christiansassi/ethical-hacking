@@ -1,19 +1,22 @@
 """
-# Auction
+# #2 Auction
+
+## Type
+Web Security
+
+## Vulnerability type
+SQL Injection
 
 ## Description
 The salary of a PhD student is pretty low, so we decided to sell some of our stuff. 
 Even though we are reluctant to part with them, on our platform you can find our most precious items and bid on them. 
 Be quick in your bids, because time is crucial! Can you log in as the admin though?
 
-## Vulnerability type
-SQL Injection
-
 ## Explaination
 In this challenge, the server executes a SQL query based on user input. 
 However, it is vulnerable to SQL injection, allowing for the injection of custom SQL by concatenating it to the offer value in the input box. 
-This vulnerability enables the insertion of additional conditions using `AND`/`OR` clauses. 
-Consequently, when the query executes, the database evaluates the injected condition alongside the original query, permitting the insertion of fresh custom SQL queries.
+This vulnerability enables the insertion of nested SQL queries using additional conditions with `AND`/`OR` clauses. 
+Consequently, when the query executes, the database evaluates the injected condition alongside the original query.
 
 This attack constitutes a blind SQL injection since the server does not return query results. 
 Therefore, it is necessary to use boolean operations combined with sleep commands to extract information. 
@@ -21,8 +24,8 @@ In this scenario, the injected query uses the `LIKE` command to guess each chara
 Visualize it as cracking a combination lock, where each guess iterates through possible characters until the correct combination is found.
 
 The provided script already incorporates the correct password and username. 
-This decision was made to expedite the process since a complete attack from the beginning would require considerable time. 
-However, for those wishing to conduct the attack from the start, they can do so by uncommenting the functions responsible for retrieving tables, columns, and ultimately, the admin password.
+This decision was made to expedite the process since a complete attack from scratch would require considerable time. 
+However, for those wishing to conduct the attack from scratch, they can do so by uncommenting the functions responsible for retrieving tables, columns, and ultimately, the admin password.
 """
 
 import binascii
