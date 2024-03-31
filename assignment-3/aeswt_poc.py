@@ -114,7 +114,7 @@ for i in range(256):
     block2[0] = i
     tmp_token = iv.hex() + block1.hex() + block2.hex() + block3.hex() + block4.hex()
     
-    # This is the oracle since the result string will tell us if everything goes ok or not
+    # This is the oracle since the result string will tell us if everything went ok or not
     if i == 0:
         r.sendlineafter(b"> ", b"2")
     else:
