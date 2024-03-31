@@ -22,7 +22,7 @@ Each challenge may have multiple solutions. Therefore, it is worth noting that t
 
 ### Cryptography
 
--   [Audit](assignment-3/aeswt_poc.py)
+-   [AESWT PoC](assignment-3/aeswt_poc.py)
 
 # Getting started
 
