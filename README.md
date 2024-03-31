@@ -38,5 +38,5 @@ Each challenge may have multiple solutions. Therefore, it is worth noting that t
     ```
 3. Execute the desired Python script. For example:
     ```bash
-    python3 hacker_system_monitor.py
+    python hacker_system_monitor.py
     ```
