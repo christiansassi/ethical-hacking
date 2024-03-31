@@ -20,6 +20,10 @@ Each challenge may have multiple solutions. Therefore, it is worth noting that t
 -   [Hacker System Monitor](assignment-1/hacker_system_monitor.py)
 -   [Audit](assignment-2/auction.py)
 
+### Cryptography
+
+-   [Audit](assignment-3/aeswt_poc.py)
+
 # Getting started
 
 1. Initialize the workspace:
