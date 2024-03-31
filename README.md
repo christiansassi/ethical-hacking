@@ -34,7 +34,7 @@ Each challenge may have multiple solutions. Therefore, it is worth noting that t
 2. To install the necessary packages for each challenge, use the `requirements.txt` file. For instance:
     ```bash
     cd assignment-1
-    pip3 install -r requirements.txt
+    pip install -r requirements.txt
     ```
 3. Execute the desired Python script. For example:
     ```bash
