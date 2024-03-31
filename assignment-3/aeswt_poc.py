@@ -5,7 +5,7 @@
 Cryptography
 
 ## Vulnerability type
-Padding Oracle Attack
+Padding Oracle Attack - Bitflipping Attack
 
 ## Description
 I created a new standard for web tokens called AESWT, which aims to be a successor of JWT, but faster. Try it out in this PoC program!
