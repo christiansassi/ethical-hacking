@@ -105,7 +105,7 @@ for i in range(BLOCK_SIZE):
         block3[i] = block1[i] ^ injected_token[BLOCK_SIZE:][i] ^ custom_token[BLOCK_SIZE:][i]
 
     else: # This is necessary in order to fill the entire block since injected_token[BLOCK_SIZE:] has a lower size
-        block3[i] = block1[i] ^ block3[i]
+        block3[i] = block1[i]
 
 # Block 4: based on rules used for the creation of the previous block (block3)
 block4 = token[BLOCK_SIZE:]
