@@ -5,7 +5,7 @@
 Cryptography
 
 ## Vulnerability type
-Padding Oracle Attack - Bitflipping Attack
+Bitflipping Attack
 
 ## Description
 I created a new standard for web tokens called AESWT, which aims to be a successor of JWT, but faster. Try it out in this PoC program!
@@ -17,7 +17,7 @@ I created a new standard for web tokens called AESWT, which aims to be a success
 In this challenge, the server prompts the user for a username and a description. 
 Subsequently, using AES CBC, it generates an encrypted token. 
 To exploit this system, one can strategically inject the desired text by taking advantage of the XOR operation employed within the AES algorithm (Bitflipping Attack) 
-and verify the validity of the compromised token using the padding oracle available through the challenge (Padding Oracle Attack).
+and verify the validity of the compromised token.
 """
 
 import pwn
