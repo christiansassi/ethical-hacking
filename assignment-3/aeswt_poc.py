@@ -79,18 +79,12 @@ block1 = token[:BLOCK_SIZE] # We take the first block of the original token
 # Finally: "desc=\x00\x00..." xor custom_token[:BLOCK_SIZE] = "desc=I am a boss" (because something XORed with \x00 will give us something)
 iv = xor(xor(iv, injected_token[:BLOCK_SIZE]), custom_token[:BLOCK_SIZE])
 
-# An empty block has a size of BLOCK_SIZE, with each byte having a value of BLOCK_SIZE.
-# This is because we are using PKCS7 for padding, which adds a number of bytes to ensure the block size is equal to BLOCK_SIZE,
-# with each byte representing the number of missing bytes. 
-# For example, in a fully empty block, we add 16 bytes because 16 bytes are missing. 
-# In a block of 1 byte, we add 15 bytes with a value equal to 15, and so on.
-
 # Block 2: empty block
 # Brute force the first byte of this block to obtain either '=' or '&' by trying every value from 0 to 255.
 # This enables us to distinguish between the garbage and the actual data during the split operation on the server side.
 # Without brute forcing, we might encounter a scenario where the output resembles "desc=I am a boss..." followed by random characters.
 # To prevent this, we specifically brute force the first byte of the second block to ensure the presence of '=' or '&', thereby facilitating the separation of the description from the random characters.
-block2 = bytearray([BLOCK_SIZE for _ in range(BLOCK_SIZE)]) # Init an empty block with respect to padding rule (see PKCS7)
+block2 = bytearray([BLOCK_SIZE for _ in range(BLOCK_SIZE)]) # Init an empty block (it can be done even with random values)
 
 # Block 3
 # The idea is the same: we utilize this block to determine the resulting plaintext of block4.
