@@ -18,6 +18,8 @@ In this challenge, the server prompts the user for a username and a description.
 Subsequently, using AES CBC, it generates an encrypted token. 
 To exploit this system, one can strategically inject the desired text by taking advantage of the XOR operation employed within the AES algorithm (Bitflipping Attack) 
 and verify the validity of the compromised token.
+
+This solution is not the best because it requires too many blocks and implements a brute force mechanism.
 """
 
 import pwn
