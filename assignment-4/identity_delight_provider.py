@@ -81,7 +81,7 @@ def get_n(r: pwn.tubes.remote.remote):
 
     return n
 
-def malleability(r: pwn.tubes.remote.remote, n: int, flag: int):
+def malleability_attack(r: pwn.tubes.remote.remote, n: int, flag: int):
 
     # Default e
     e = 65537
@@ -113,6 +113,6 @@ if __name__ == "__main__":
     n = get_n(r=r)
 
     # Perform a malleability attack on the ciphertext of the flag
-    flag = malleability(r=r, n=n, flag=flag)
+    flag = malleability_attack(r=r, n=n, flag=flag)
 
     print(flag)
