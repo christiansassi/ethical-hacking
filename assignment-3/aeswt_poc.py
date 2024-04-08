@@ -1,5 +1,5 @@
 """
-# #3 AESWT PoC
+# #3 AESWT PoC (1 and 2)
 
 ## Type
 Cryptography
@@ -13,9 +13,8 @@ I created a new standard for web tokens called AESWT, which aims to be a success
 I created a new standard for web tokens called AESWT, which aims to be a successor of JWT, but faster. Try it out in this PoC program! This time we require an actual description of yourself though.
 
 ## Explaination
-
 In this challenge, the server prompts the user for a username and a description. 
-Subsequently, using AES CBC, it generates an encrypted token. 
+Then, using AES CBC, it generates an encrypted token. 
 To exploit this system, one can strategically inject the desired text by taking advantage of the XOR operation employed within the AES algorithm (Bitflipping Attack) 
 and verify the validity of the compromised token.
 
