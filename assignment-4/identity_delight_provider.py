@@ -16,7 +16,7 @@ After sending a complaint to my customer, he said he has improved the security o
 In this challenge, the server offers the option to either generate a username-password pair using RSA or verify an existing one. 
 The RSA algorithm employs a 1024-bit key and uses the default public exponent of 65537.
 Upon user request, the server returns the ciphertext of the flag. 
-The initial step involves extracting the 'n' factor used within the current instance of the RSA algorithm. 
+The initial step involves extracting the n factor used within the current instance of the RSA algorithm. 
 For this task, refer to https://crypto.stackexchange.com/questions/43583/deduce-modulus-n-from-public-exponent-and-encrypted-data
 Then, a malleability attack can be executed to generate and verify a new password using a known value (g) and the ciphertext of the flag. 
 Once the decrypted text is obtained, it becomes feasible to apply the reverse formula (alongside certain calculations) to derive the plaintext of the flag.
@@ -34,14 +34,15 @@ def get_n(r: pwn.tubes.remote.remote):
 
     # Given that with 2 m, there is a 55% probability that the final n represents the true value, 
     # increasing the number of m to > 3.6 will provide nearly 100% certainty of obtaining the true n.
-    # However, due to encountering "Got EOF while reading in interactive" with pwn (likely due to a buffer overflow issue), this solution only uses two values for 'm'. 
+    # Since in the second challenge it is only possible to interact with the server five times, here we try with only two m.
+    # Of course, for the first one, it is possible to increase the number of m.
     # In case of failure, simply restart the script and retry.
     # https://crypto.stackexchange.com/questions/43583/deduce-modulus-n-from-public-exponent-and-encrypted-data
 
     multiples_of_n = [] # ((c_i)^2 - c'_i)
 
-    # Considering potential buffer overflow issues, we need to avoid attempting values that result in incorrect ciphertexts to prevent wasting attempts. 
-    # For instance, 9 gives a ciphertext of 0.
+    # We need to avoid attempting values that result in incorrect ciphertexts to prevent wasting attempts. 
+    # For instance, 9 gives a ciphertext of 0 (as of the time of writing, I can't understand why).
     ms = [3] # Keep track of saved messages
 
     m = 1 # Start from 2 (since 1^2 = 1 so it is useless)
@@ -86,9 +87,9 @@ def malleability_attack(r: pwn.tubes.remote.remote, n: int, flag: int):
     # Default e
     e = 65537
 
-    # Just to demonstrate that malleability works with any (more or less) random g
-    # Do not use 1 since it will not generate a new ciphertext
-    # 1000 is just an example, you can modify the upper bound
+    # Just to demonstrate that malleability works with any (more or less) random g.
+    # For semplicity, we will use numbers, but do not use 1 since it will not generate a new ciphertext.
+    # 1000 is just an example, you can modify it.
     g = random.randint(2,1000)
 
     cp = (flag * pow(g, e)) % n
@@ -106,7 +107,7 @@ def malleability_attack(r: pwn.tubes.remote.remote, n: int, flag: int):
 
 if __name__ == "__main__":
 
-    r = pwn.remote("cyberchallenge.disi.unitn.it", 50302) # For the advanced challenge, use port 50303
+    r = pwn.remote("cyberchallenge.disi.unitn.it", 50303) # For the advanced challenge, use port 50303
 
     # Retrieve the ciphertext of the flag
     flag = int(r.recvline_contains(b": ").decode().split(": ")[1].strip())
