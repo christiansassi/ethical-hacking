@@ -8,9 +8,8 @@ Cryptography
 Bitflipping Attack
 
 ## Description
-I created a new standard for web tokens called AESWT, which aims to be a successor of JWT, but faster. Try it out in this PoC program!
--
-I created a new standard for web tokens called AESWT, which aims to be a successor of JWT, but faster. Try it out in this PoC program! This time we require an actual description of yourself though.
+* Challenge 1: I created a new standard for web tokens called AESWT, which aims to be a successor of JWT, but faster. Try it out in this PoC program!
+* Challenge 2: I created a new standard for web tokens called AESWT, which aims to be a successor of JWT, but faster. Try it out in this PoC program! This time we require an actual description of yourself though.
 
 ## Explaination
 In this challenge, the server prompts the user for a username and a description. 

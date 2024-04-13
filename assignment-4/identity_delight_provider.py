@@ -8,9 +8,8 @@ Cryptography
 Malleability Attack
 
 ## Description
-My customer is using this strange identity provider, where login is performed with a username-dependent password... I'm not sure I can trust it.
--
-After sending a complaint to my customer, he said he has improved the security of the system, could you check if that is for real?
+* Challenge 1: My customer is using this strange identity provider, where login is performed with a username-dependent password... I'm not sure I can trust it.
+* Challenge 2: After sending a complaint to my customer, he said he has improved the security of the system, could you check if that is for real?
 
 ## Explaination
 In this challenge, the server offers the option to either generate a username-password pair using RSA or verify an existing one. 
@@ -29,6 +28,7 @@ from Crypto.Util.number import long_to_bytes, GCD
 from collections import Counter
 from itertools import combinations
 import random
+import identity_delight_provider
 
 def get_n(r: pwn.tubes.remote.remote):
 
