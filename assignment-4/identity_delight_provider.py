@@ -5,7 +5,7 @@
 Cryptography
 
 ## Vulnerability type
-Malleability Attack
+Malleability Attack w/ encryption and decryption oracles
 
 ## Description
 * Challenge 1: My customer is using this strange identity provider, where login is performed with a username-dependent password... I'm not sure I can trust it.
