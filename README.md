@@ -25,6 +25,10 @@ Each challenge may have multiple solutions and, therefore, it is worth noting th
 -   [AESWT PoC](assignment-3/aeswt_poc.py)
 -   [Identity Delight Provider](assignment-4/identity_delight_provider.py)
 
+### Reverse Engineering
+
+-   [The x86 police](assignment-4/the_x86_police.py)
+
 # Getting started
 
 1. Initialize the workspace:
