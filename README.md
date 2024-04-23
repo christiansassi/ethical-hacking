@@ -27,7 +27,7 @@ Each challenge may have multiple solutions and, therefore, it is worth noting th
 
 ### Reverse Engineering
 
--   [The x86 police](assignment-4/the_x86_police.py)
+-   [The x86 police](assignment-5/the_x86_police.py)
 
 # Getting started
 
