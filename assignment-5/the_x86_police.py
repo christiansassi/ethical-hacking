@@ -20,6 +20,8 @@ Then, it can be observed that an handler function, "FUN_00101179", is used for a
 Upon analyzing the handler function, the code reveals that the user input stored in "DAT_00104060" is XORed with 0x42, and the resulting value is then compared with "DAT_00102020".
 This implies that the XORed version of the flag resides within "DAT_00104060", and by XORing it with 0x42, the plaintext of the flag can be obtained.
 To achieve this, simply examine "DAT_00104060", copy the bytes associated with this variable, and perform the XOR operation on them.
+Important to note, for this script, a better solution would be to directly extract the content of DAT_00102020 since its name remains unchanged and it contains the flag. 
+However, the longer approach was chosen to illustrate the flow of how the challenge should be resolved from a reverse engineering standpoint.
 
 ## Extra
 For the installation and usage of pyhidra follow this guide:
