@@ -45,3 +45,6 @@ Each challenge may have multiple solutions and, therefore, it is worth noting th
     ```bash
     python hacker_system_monitor.py
     ```
+
+> [!IMPORTANT]
+> Before solving the challenges, please read the description at the beginning of each file.
