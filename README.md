@@ -28,6 +28,7 @@ Each challenge may have multiple solutions and, therefore, it is worth noting th
 ### Reverse Engineering
 
 -   [The x86 police](assignment-5/the_x86_police.py)
+-   [RandomPasswordGenerator 2.0 (RPG2)](assignment-6/random_password_generator_20_rpg2.py)
 
 # Getting started
 
