@@ -8,10 +8,10 @@
 
 # Introduction
 
-This repository includes solutions for every challenge covered thus far in the Ethical Hacking course. <br>
-The solutions provided in this repository are encapsulated in Python scripts, allowing users to obtain the flag of the challenge by simply running the script. <br>
-However, it's important to note that not all challenges were intended to be solved using Python scripts. <br>
-Each challenge may have multiple solutions and, therefore, it is worth noting that the solutions showcased in this repository may not necessarily be the best ones, but they are, at the very least, functional.
+This repository contains solutions for all challenges covered in the Ethical Hacking course. <br>
+The solutions, written in Python scripts, enable users to retrieve the challenge flag by running the script. 
+It's worth noting that while Python scripts are provided for all challenges, not all of them were originally intended to be solved using Python. 
+Additionally, each challenge may have multiple solutions, so they may not always be the optimal ones.
 
 # Challenges
 
