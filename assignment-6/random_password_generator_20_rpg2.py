@@ -50,16 +50,17 @@ if __name__ == "__main__":
     # To do this, just increase the seed until we will be able to generate the same password
     pid = 0
 
-    # Define lambda function
+    # Define lambda function for generating a password like the server does
     generate_password = lambda rand: ''.join([chr(rand() % 0x5e + 0x21) for _ in range(0x10)])
 
     while True:
+        # Re-init srand with a new seed
         libc.srand(pid)
 
         # Generate temp password using the current seed
         tmp_password = generate_password(libc.rand)
 
-        # Check match
+        # Check match between the password just generated and the one obtained from the first attempt
         if tmp_password == password:
             break
 
