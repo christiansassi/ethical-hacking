@@ -33,6 +33,7 @@ Additionally, each challenge may have multiple solutions, so they may not always
 ### Pwn
 
 -   [BASH - Basic Asynchronous Shell](assignment-7/bash_basic_asynchronous_shell.py)
+-   [echo](assignment-8/echo_echo20.py)
 
 # Getting started
 
