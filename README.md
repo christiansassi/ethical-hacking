@@ -34,6 +34,7 @@ Additionally, each challenge may have multiple solutions, so they may not always
 
 -   [BASH - Basic Asynchronous Shell](assignment-7/bash_basic_asynchronous_shell.py)
 -   [echo](assignment-8/echo_echo20.py)
+-   [Rest on Pieces (ROP)](assignment-9/rest_on_pieces_rop_50.py)
 
 # Getting started
 

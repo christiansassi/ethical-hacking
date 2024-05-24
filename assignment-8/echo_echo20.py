@@ -159,19 +159,10 @@ def echo2(binary_file: str, libc_file: str) -> str:
 
 		r.close()
 
-
 if __name__ == "__main__":
 
-<<<<<<< HEAD
-	flag1 = echo()
-	flag2 = echo2()
-
-	print(f"echo: {flag1}")
-	print(f"echo 2.0: {flag2}")
-=======
     flag1 = echo(binary_file=..., libc_file=...)
     flag2 = echo2(binary_file=..., libc_file=...)
 
     print(f"echo: {flag1}")
     print(f"echo 2.0: {flag2}")
->>>>>>> d253c4c838b270fee74e2ee798a9b16f5cebe61e
