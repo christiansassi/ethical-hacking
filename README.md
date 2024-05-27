@@ -39,16 +39,19 @@ Additionally, each challenge may have multiple solutions, so they may not always
 # Getting started
 
 1. Initialize the workspace:
+
     ```bash
     git clone https://github.com/christiansassi/ethical-hacking
     cd ethical-hacking
     ```
-2. To install the necessary packages for each challenge, use the `requirements.txt` file. For instance:
+3. To install the necessary packages for each challenge, use the `requirements.txt` file. For instance:
+   
     ```bash
     cd assignment-1
     pip install -r requirements.txt
     ```
-3. Execute the desired Python script. For example:
+5. Execute the desired Python script. For example:
+   
     ```bash
     python hacker_system_monitor.py
     ```
