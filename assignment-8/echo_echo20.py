@@ -46,7 +46,11 @@ The only difference is that, since the binary uses ASLR, it is not possible to d
 * Now, it is possible to follow the steps mentioned earlier to obtain the flag.
 
 ## Extra
-This solution is not the best because it repeatedly runs the binaries until it succeeds.
+This solution is not deterministic because it repeatedly runs the binaries until it succeeds. 
+This is due to the fact that the binaries use ASLR, meaning that each run will have different addresses. 
+Additionally, since the payloads are very large, they could cause the programs to crash if the addresses are close to something critical.
+When the exploit successfully obtains the flag, it is because the tainted portions of memory do not cause the program to crash. 
+Therefore, while this solution might not be the best, it can yield the maximum score if properly justified.
 
 """
 
